@@ -4,7 +4,7 @@ TxPools uses Vercel for the static Vue application and one Railway web service f
 
 ## Railway
 
-Create a service from the GitHub repository and set its root directory to `app`.
+Create a service from the GitHub repository and set its root directory to `/app`.
 
 Use this start command:
 
