@@ -19,6 +19,7 @@ import {
   ProgramOutcome,
   TXPOOLS_USDC_MINT,
   fetchIndexedPool,
+  findPoolPda,
   getUserUsdcAccount,
   lockPredictionInstruction,
   programToOutcome,
@@ -48,6 +49,10 @@ const lockError = ref<string>()
 const lockSignature = ref<string>()
 const fallbackError = ref<string>()
 let timer: number | undefined
+let poolRefreshTimer: number | undefined
+let poolSubscriptionId: number | undefined
+let poolSubscriptionGeneration = 0
+let poolRefreshPending = false
 
 const routeFixtureId = computed(() => {
   const id = String(route.params.id)
@@ -190,6 +195,51 @@ const refreshUsdcBalance = async () => {
   }
 }
 
+const refreshDisplayedPoolRates = async () => {
+  const fixtureId = routeFixtureId.value
+  if (!fixtureId || poolRefreshPending) return
+
+  poolRefreshPending = true
+  try {
+    await refreshInitializedPoolFromRpc(fixtureId)
+  } catch {
+    // The periodic refresh retries transient RPC failures without interrupting
+    // an already-confirmed prediction flow.
+  } finally {
+    poolRefreshPending = false
+  }
+}
+
+const stopPoolSubscription = async () => {
+  poolSubscriptionGeneration += 1
+  if (poolSubscriptionId === undefined) return
+  const subscriptionId = poolSubscriptionId
+  poolSubscriptionId = undefined
+  await txPoolsTransactionConnection.removeAccountChangeListener(subscriptionId).catch(() => undefined)
+}
+
+const startPoolSubscription = async () => {
+  await stopPoolSubscription()
+  const fixtureId = routeFixtureId.value
+  if (!fixtureId || !pool.value?.initializedOnChain || pool.value.status !== 'Upcoming') return
+
+  const generation = poolSubscriptionGeneration
+  const [poolAddress] = findPoolPda(fixtureId)
+  const subscriptionId = txPoolsTransactionConnection.onAccountChange(
+    poolAddress,
+    () => {
+      if (generation === poolSubscriptionGeneration) void refreshDisplayedPoolRates()
+    },
+    'confirmed',
+  )
+
+  if (generation === poolSubscriptionGeneration) {
+    poolSubscriptionId = subscriptionId
+  } else {
+    await txPoolsTransactionConnection.removeAccountChangeListener(subscriptionId).catch(() => undefined)
+  }
+}
+
 const sendLockPrediction = async (amount: number) => {
   lockError.value = undefined
   lockSignature.value = undefined
@@ -280,7 +330,7 @@ const sendLockPrediction = async (amount: number) => {
     lockSignature.value = signature
     // Read the confirmed pool directly so rates update before the indexer's
     // next polling cycle.
-    await Promise.all([refreshUsdcBalance(), refreshInitializedPoolFromRpc(fixtureId)])
+    await Promise.all([refreshUsdcBalance(), refreshDisplayedPoolRates()])
   } catch (caught) {
     lockError.value = caught instanceof Error ? caught.message : 'lock_prediction transaction failed.'
   } finally {
@@ -292,16 +342,33 @@ onMounted(() => {
   timer = window.setInterval(() => {
     now.value = Date.now()
   }, 1000)
+  // Account subscriptions update the cards immediately; polling covers a
+  // dropped devnet WebSocket without putting sustained load on the RPC.
+  poolRefreshTimer = window.setInterval(() => {
+    if (pool.value?.initializedOnChain && pool.value.status === 'Upcoming') {
+      void refreshDisplayedPoolRates()
+    }
+  }, 10_000)
   void refreshUsdcBalance()
 })
 
 onUnmounted(() => {
   if (timer) window.clearInterval(timer)
+  if (poolRefreshTimer) window.clearInterval(poolRefreshTimer)
+  void stopPoolSubscription()
 })
 
 watch(connectedWallet, () => {
   void refreshUsdcBalance()
 })
+
+watch(
+  [routeFixtureId, () => pool.value?.initializedOnChain, () => pool.value?.status],
+  () => {
+    void startPoolSubscription()
+  },
+  { immediate: true },
+)
 
 watch(
   [() => route.params.id, initializedPools],
