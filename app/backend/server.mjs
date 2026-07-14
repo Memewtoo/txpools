@@ -40,7 +40,7 @@ const corsHeaders = (req) => {
   return {
     ...(origin ? { 'access-control-allow-origin': origin } : {}),
     'access-control-allow-methods': 'GET, POST, OPTIONS',
-    'access-control-allow-headers': 'content-type, last-event-id',
+    'access-control-allow-headers': 'content-type, last-event-id, solana-client',
     vary: 'Origin',
   }
 }
