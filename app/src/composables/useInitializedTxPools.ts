@@ -201,6 +201,7 @@ export const useInitializedTxPools = () => {
   const txLine = useTxLinePools()
   const initializedPoolStates = ref<InitializedPoolState[]>([])
   const indexedPools = ref<IndexedPool[]>([])
+  const rpcPoolOverrides = new Map<number, { onChainPool: PoolAccount; vaultAmountRaw: bigint }>()
   const onChainLoading = ref(false)
   const onChainError = ref<string>()
   const indexerError = ref<string>()
@@ -220,10 +221,27 @@ export const useInitializedTxPools = () => {
 
     initializedPoolStates.value = indexedPools.value.map((indexedPool) => {
       const state = txLineByFixture.get(indexedPool.fixture_id) ?? fallbackStateFromIndexedPool(indexedPool)
+      const fixtureId = Number(indexedPool.fixture_id)
+      const indexedAccount = indexedPoolToAccount(indexedPool)
+      const indexedVaultAmount = BigInt(indexedPool.vault_amount)
+      const override = rpcPoolOverrides.get(fixtureId)
+
+      // Keep a confirmed post-transaction read visible until the polling
+      // indexer reaches the same pool totals and vault balance.
+      if (
+        override
+        && override.onChainPool.totalLocked === indexedAccount.totalLocked
+        && override.onChainPool.outcomeTotals.every((amount, index) => amount === indexedAccount.outcomeTotals[index])
+        && override.vaultAmountRaw === indexedVaultAmount
+      ) {
+        rpcPoolOverrides.delete(fixtureId)
+      }
+
+      const current = rpcPoolOverrides.get(fixtureId)
       return withOnChainPool(
         state,
-        indexedPoolToAccount(indexedPool),
-        BigInt(indexedPool.vault_amount),
+        current?.onChainPool ?? indexedAccount,
+        current?.vaultAmountRaw ?? indexedVaultAmount,
         indexedPool,
       )
     })
@@ -281,6 +299,33 @@ export const useInitializedTxPools = () => {
     }
   }
 
+  const refreshInitializedPoolFromRpc = async (fixtureId: number) => {
+    const onChainPool = await txPoolsClient.fetchPool(fixtureId)
+    if (!onChainPool) return false
+
+    const vaultAmountRaw = await txPoolsClient.fetchVaultAmount(fixtureId)
+    rpcPoolOverrides.set(fixtureId, { onChainPool, vaultAmountRaw })
+
+    if (rebuildFromIndexedPools()) return true
+
+    const state = txLine.poolStates.value.find(
+      (candidate): candidate is TxLinePoolState & { fixtureId: number } =>
+        candidate.source === 'txline' && candidate.fixtureId === fixtureId,
+    )
+    if (!state) return false
+
+    const refreshed = withOnChainPool(state, onChainPool, vaultAmountRaw)
+    const existingIndex = initializedPoolStates.value.findIndex((candidate) => candidate.fixtureId === fixtureId)
+    if (existingIndex === -1) {
+      initializedPoolStates.value = [...initializedPoolStates.value, refreshed]
+    } else {
+      initializedPoolStates.value = initializedPoolStates.value.map((candidate, index) =>
+        index === existingIndex ? refreshed : candidate,
+      )
+    }
+    return true
+  }
+
   watch(
     txLine.poolStates,
     () => {
@@ -302,5 +347,6 @@ export const useInitializedTxPools = () => {
     onChainError,
     indexerError,
     refreshInitializedPools,
+    refreshInitializedPoolFromRpc,
   }
 }

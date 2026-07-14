@@ -31,7 +31,7 @@ import {
 
 const route = useRoute()
 const wallet = useWallet()
-const { initializedPools, settlementPreviews, refreshInitializedPools } = useInitializedTxPools()
+const { initializedPools, settlementPreviews, refreshInitializedPoolFromRpc } = useInitializedTxPools()
 const fallbackPool = ref<MatchPool>()
 const pool = computed(() =>
   initializedPools.value.find((item) => item.id === String(route.params.id))
@@ -278,7 +278,9 @@ const sendLockPrediction = async (amount: number) => {
       },
     })
     lockSignature.value = signature
-    await Promise.all([refreshUsdcBalance(), refreshInitializedPools()])
+    // Read the confirmed pool directly so rates update before the indexer's
+    // next polling cycle.
+    await Promise.all([refreshUsdcBalance(), refreshInitializedPoolFromRpc(fixtureId)])
   } catch (caught) {
     lockError.value = caught instanceof Error ? caught.message : 'lock_prediction transaction failed.'
   } finally {
