@@ -1,0 +1,36 @@
+{
+  "name": "txpools-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && tsc -p tsconfig.node.json --noEmit && vite build",
+    "preview": "vite preview",
+    "txline:devnet": "node scripts/txline-devnet-activate.mjs",
+    "indexer": "node --env-file-if-exists=.env backend/server.mjs",
+    "indexer:once": "node --env-file-if-exists=.env backend/indexer.mjs --once"
+  },
+  "dependencies": {
+    "@lucide/vue": "^1.23.0",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "buffer": "^6.0.3",
+    "solana-wallets-vue": "^0.7.1",
+    "tweetnacl": "^1.0.3",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.6.3",
+    "vite": "^6.0.5",
+    "vue-tsc": "^2.2.0"
+  }
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#00e290",
+                        "surface": "#10131a",
+                        "background": "#10131a",
+                        "on-background": "#e1e2eb",
+                        "primary": "#d8b9ff",
+                        "secondary": "#a0ffc3",
+                        "surface-container": "#1d2026",
+                        "surface-container-low": "#191c22",
+                        "surface-container-high": "#272a31",
+                        "surface-container-lowest": "#0b0e14",
+                        "outline-variant": "#4c4355",
+                        "on-surface-variant": "#cec2d8",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "data-tabular": ["JetBrains Mono", "monospace"],
+                        "label-caps": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    }catch(_e){}</script></head><body class="bg-[#0b0e14] text-on-background font-body-md overflow-x-hidden min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-20 bg-[#0b0e14]/80 backdrop-blur-xl border-b border-white/5">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-bold tracking-tight text-white">TxPools</span>
+<nav class="hidden md:flex gap-8">
+<a class="text-sm font-medium text-white/60 hover:text-white transition-colors" href="#">Pools</a>
+<a class="text-sm font-medium text-white/60 hover:text-white transition-colors" href="#">Settlements</a>
+<a class="text-sm font-medium text-[#00e290] relative" href="#">
+                Portfolio
+                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-[#00e290]"></span>
+</a>
+<a class="text-sm font-medium text-white/60 hover:text-white transition-colors" href="#">Trust</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 px-4 py-1.5 bg-white/5 rounded-full border border-white/10">
+<span class="material-symbols-outlined text-[#00e290] text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">sensors</span>
+<span class="text-xs font-medium text-white/80">Solana Mainnet</span>
+</div>
+<button class="bg-[#9945ff] text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:brightness-110 transition-all">Connect Wallet</button>
+</div>
+</header>
+<main class="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
+<div class="max-w-2xl">
+<h1 class="text-4xl font-bold text-white mb-4">My Portfolio</h1>
+<p class="text-white/60 text-lg leading-relaxed">
+                Track your open positions, historical wins, and claimable rewards from the World Cup event pools.
+            </p>
+</div>
+<div class="flex items-center gap-4">
+<!-- Claimable Value Card -->
+<div class="bg-white/5 border border-white/10 rounded-2xl p-5 min-w-[240px]">
+<p class="text-[10px] font-bold tracking-widest text-white/40 mb-2 uppercase">CLAIMABLE VALUE</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-[#00e290]">1,820.00</span>
+<span class="text-lg font-bold text-[#00e290]">USDC</span>
+</div>
+</div>
+<!-- Claim Button -->
+<button class="gradient-claim h-[88px] px-8 rounded-2xl flex items-center gap-3 text-white font-bold hover:scale-[1.02] transition-transform shadow-lg shadow-[#14f195]/10">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="">CLAIM ALL USDC</span>
+</button>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex gap-10 border-b border-white/5 mb-10">
+<button class="pb-4 text-sm font-bold text-white border-b-2 border-white relative">
+            ACTIVE ( 2 )
+        </button>
+<button class="pb-4 text-sm font-bold text-white/40 hover:text-white/60 transition-colors">PENDING SETTLEMENT ( 1 )</button>
+<button class="pb-4 text-sm font-bold text-[#00e290] hover:text-[#00e290]/80 transition-colors flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#00e290]"></span>
+            CLAIMABLE ( 1 )
+        </button>
+<button class="pb-4 text-sm font-bold text-white/40 hover:text-white/60 transition-colors">WON ( 1 )</button>
+<button class="pb-4 text-sm font-bold text-white/40 hover:text-white/60 transition-colors">LOST ( 1 )</button>
+</div>
+<!-- Table -->
+<div class="bg-white/[0.02] border border-white/10 rounded-3xl overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-white/10">
+<th class="px-8 py-6 text-[10px] font-bold tracking-widest text-white/40 uppercase">MATCH / EVENT</th>
+<th class="px-6 py-6 text-[10px] font-bold tracking-widest text-white/40 uppercase text-center">PREDICTION</th>
+<th class="px-6 py-6 text-[10px] font-bold tracking-widest text-white/40 uppercase text-center">AMOUNT</th>
+<th class="px-6 py-6 text-[10px] font-bold tracking-widest text-white/40 uppercase text-center">STATUS</th>
+<th class="px-6 py-6 text-[10px] font-bold tracking-widest text-white/40 uppercase text-right">ESTIMATED PAYOUT</th>
+<th class="px-8 py-6 text-[10px] font-bold tracking-widest text-white/40 uppercase text-right">ACTION</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Row 1: Live -->
+<tr class="hover:bg-white/[0.04] transition-colors group">
+<td class="px-8 py-8">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-10 h-10 rounded-full bg-white/10 border-2 border-[#0b0e14] flex items-center justify-center overflow-hidden">
+<img alt="ARG" class="w-full h-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+</div>
+<div class="w-10 h-10 rounded-full bg-white/10 border-2 border-[#0b0e14] flex items-center justify-center overflow-hidden">
+<img alt="FRA" class="w-full h-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+</div>
+</div>
+<div class="">
+<div class="font-bold text-white text-base">World Cup: ARG vs FRA</div>
+<div class="text-[11px] font-mono text-white/40">ID: 0x7c22...e8b1</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-8">
+<div class="flex justify-center">
+<span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/80 uppercase">ARG WIN</span>
+</div>
+</td>
+<td class="px-6 py-8 text-center font-mono font-bold text-white text-base">1,000.00 USDC</td>
+<td class="px-6 py-8">
+<div class="flex items-center justify-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#00e290]"></span>
+<span class="text-[10px] font-bold text-[#00e290] uppercase tracking-wider">LIVE</span>
+</div>
+</td>
+<td class="px-6 py-8 text-right font-mono font-bold text-[#00e290] text-base">1,950.00 USDC</td>
+<td class="px-8 py-8 text-right">
+<button class="text-[11px] font-bold text-white/40 hover:text-white uppercase tracking-widest transition-colors">VIEW POOL&nbsp;&nbsp;</button></td>
+</tr>
+<!-- Row 2: Pending -->
+<tr class="hover:bg-white/[0.04] transition-colors group">
+<td class="px-8 py-8">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-10 h-10 rounded-full bg-white/10 border-2 border-[#0b0e14] flex items-center justify-center overflow-hidden">
+<img alt="BRA" class="w-full h-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+</div>
+<div class="w-10 h-10 rounded-full bg-white/10 border-2 border-[#0b0e14] flex items-center justify-center overflow-hidden">
+<img alt="GER" class="w-full h-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+</div>
+</div>
+<div>
+<div class="font-bold text-white text-base">World Cup: BRA vs GER</div>
+<div class="text-[11px] font-mono text-white/40">ID: 0x4d55...b921</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-8 text-center">
+<div class="flex justify-center">
+<span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/80 uppercase">DRAW</span>
+</div>
+</td>
+<td class="px-6 py-8 text-center font-mono font-bold text-white text-base">500.00 USDC</td>
+<td class="px-6 py-8">
+<div class="flex justify-center">
+<span class="px-4 py-1 border border-[#ffb444]/40 rounded text-[10px] font-bold text-[#ffb444] uppercase tracking-wider">PENDING SETTLEMENT</span>
+</div>
+</td>
+<td class="px-6 py-8 text-right font-mono font-bold text-white text-base">2,200.00 USDC</td>
+<td class="px-8 py-8 text-right">
+<span class="text-[11px] font-bold text-white/20 uppercase tracking-widest">PENDING&nbsp; &nbsp; &nbsp;</span></td>
+</tr>
+<!-- Row 3: Claimable -->
+<tr class="bg-[#00e290]/[0.03] hover:bg-[#00e290]/[0.06] transition-colors group">
+<td class="px-8 py-8 border-l-2 border-[#00e290]">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-10 h-10 rounded-full bg-white/10 border-2 border-[#0b0e14] flex items-center justify-center overflow-hidden">
+<img alt="MAR" class="w-full h-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+</div>
+<div class="w-10 h-10 rounded-full bg-white/10 border-2 border-[#0b0e14] flex items-center justify-center overflow-hidden">
+<img alt="POR" class="w-full h-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+</div>
+</div>
+<div class="">
+<div class="font-bold text-white text-base">World Cup: MAR vs POR</div>
+<div class="text-[11px] font-mono text-white/40">ID: 0x92f1...c222</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-8 text-center">
+<div class="flex justify-center">
+<span class="px-4 py-1.5 rounded-full bg-[#00e290]/10 border border-[#00e290]/20 text-[10px] font-bold text-[#00e290] uppercase">MAR TO QUALIFY</span>
+</div>
+</td>
+<td class="px-6 py-8 text-center font-mono font-bold text-white text-base">250.00 USDC</td>
+<td class="px-6 py-8">
+<div class="flex justify-center">
+<span class="px-4 py-1 bg-[#00e290] rounded text-[10px] font-bold text-[#0b0e14] uppercase tracking-wider">CLAIMABLE</span>
+</div>
+</td>
+<td class="px-6 py-8 text-right font-mono font-bold text-[#00e290] text-base">820.00 USDC</td>
+<td class="px-8 py-8 text-right">
+<button class="bg-[#00e290] text-[#0b0e14] px-6 py-2 rounded-xl text-[11px] font-bold uppercase tracking-widest hover:brightness-110 transition-all">CLAIM</button>
+</td>
+</tr>
+<!-- Row 4: Lost -->
+<tr class="hover:bg-white/[0.04] transition-colors group opacity-60">
+<td class="px-8 py-8">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-10 h-10 rounded-full bg-white/10 border-2 border-[#0b0e14] flex items-center justify-center overflow-hidden">
+<img alt="CRO" class="w-full h-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+</div>
+<div class="w-10 h-10 rounded-full bg-white/10 border-2 border-[#0b0e14] flex items-center justify-center overflow-hidden">
+<img alt="BEL" class="w-full h-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+</div>
+</div>
+<div>
+<div class="font-bold text-white text-base">World Cup: CRO vs BEL</div>
+<div class="text-[11px] font-mono text-white/40">ID: 0x11a2...f33d</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-8 text-center">
+<div class="flex justify-center">
+<span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/40 uppercase">BEL WIN</span>
+</div>
+</td>
+<td class="px-6 py-8 text-center font-mono font-bold text-white text-base">300.00 USDC</td>
+<td class="px-6 py-8">
+<div class="flex justify-center">
+<span class="px-4 py-1 bg-white/10 rounded text-[10px] font-bold text-white/40 uppercase tracking-wider">LOST</span>
+</div>
+</td>
+</tr></tbody></table></div></div></main></body></html>

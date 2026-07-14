@@ -1,0 +1,482 @@
+<!DOCTYPE html><html class="dark" lang="en" style="width: 1280px; height: 1873px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>TxPools | World Cup Prediction Protocol</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        @layer base {
+            body {
+                @apply bg-background text-on-background antialiased selection:bg-primary/30;
+            }
+        }
+        
+        .glass-card {
+            background: rgba(30, 35, 45, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(216, 185, 255, 0.3);
+            background: rgba(30, 35, 45, 0.6);
+        }
+
+        .live-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #d8b9ff 0%, #00e38b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-button {
+            background: linear-gradient(135deg, #9945ff 0%, #00e290 100%);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#93000a",
+                    "surface-container": "#1d2026",
+                    "primary-fixed": "#eddcff",
+                    "secondary-fixed-dim": "#00e38b",
+                    "secondary-fixed": "#56ffa8",
+                    "on-secondary-fixed": "#002110",
+                    "surface-bright": "#363940",
+                    "tertiary-fixed": "#52ffac",
+                    "on-error": "#690005",
+                    "surface-tint": "#d8b9ff",
+                    "primary-fixed-dim": "#d8b9ff",
+                    "on-primary": "#450086",
+                    "on-background": "#e1e2eb",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary": "#00391f",
+                    "background": "#10131a",
+                    "error": "#ffb4ab",
+                    "outline": "#978da1",
+                    "outline-variant": "#4c4355",
+                    "surface-container-lowest": "#0b0e14",
+                    "on-primary-container": "#ffffff",
+                    "inverse-surface": "#e1e2eb",
+                    "tertiary": "#00e290",
+                    "on-surface": "#e1e2eb",
+                    "secondary": "#a0ffc3",
+                    "on-tertiary-fixed": "#002111",
+                    "surface-dim": "#10131a",
+                    "on-secondary-container": "#00653b",
+                    "tertiary-container": "#008855",
+                    "tertiary-fixed-dim": "#00e290",
+                    "primary": "#d8b9ff",
+                    "surface-container-high": "#272a31",
+                    "surface-container-low": "#191c22",
+                    "secondary-container": "#00ec91",
+                    "inverse-primary": "#7f21e5",
+                    "on-tertiary": "#003920",
+                    "surface": "#10131a",
+                    "on-surface-variant": "#cec2d8",
+                    "on-secondary-fixed-variant": "#00522f",
+                    "surface-variant": "#32353c",
+                    "primary-container": "#9945ff",
+                    "on-tertiary-container": "#ffffff",
+                    "on-primary-fixed-variant": "#6300bb",
+                    "on-primary-fixed": "#290055",
+                    "on-tertiary-fixed-variant": "#005231",
+                    "surface-container-highest": "#32353c",
+                    "inverse-on-surface": "#2e3037"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "margin-desktop": "32px",
+                    "unit": "4px",
+                    "margin-mobile": "16px",
+                    "max-width": "1280px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "data-tabular": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "data-tabular": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 md:px-margin-desktop h-16 bg-background/80 backdrop-blur-xl border-b border-outline-variant/30">
+<div class="flex items-center gap-10">
+<span class="font-display-lg text-headline-sm tracking-tighter text-primary">TxPools</span>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface border-b-2 border-primary pb-1 font-body-md text-body-md transition-all" href="#">Pools</a>
+<a class="text-on-surface-variant hover:text-primary font-body-md text-body-md transition-colors duration-200" href="#">Settlements</a>
+<a class="text-on-surface-variant hover:text-primary font-body-md text-body-md transition-colors duration-200" href="#">Portfolio</a>
+<a class="text-on-surface-variant hover:text-primary font-body-md text-body-md transition-colors duration-200" href="#">Trust</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 px-3 py-1 bg-surface-variant/50 rounded-full border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px] text-tertiary">sensors</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant">Solana Mainnet</span>
+</div>
+<button class="px-5 py-2 rounded-lg bg-primary-container text-on-primary-container font-body-md text-body-md hover:opacity-90 active:scale-95 transition-all">
+            Connect Wallet
+        </button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-24 px-margin-mobile md:px-margin-desktop pb-20 max-w-7xl mx-auto">
+<!-- Network Status Bar -->
+
+<!-- Hero Section -->
+<section class="relative mb-20 overflow-hidden rounded-3xl bg-surface-container-low/30 border border-outline-variant/10">
+<div class="relative z-10 py-16 px-8 md:px-16 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-12">
+<div class="max-w-2xl">
+<h1 class="font-display-lg text-display-lg md:text-6xl mb-6 leading-[1.1] text-on-surface">
+                    Trustless World Cup <br><span class="gradient-text">Prediction Pools</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-lg">
+                    Join USDC prediction pools settled by cryptographically verified match data on Solana. Experience zero-counterparty risk.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+<button class="gradient-button px-8 py-4 rounded-xl font-headline-sm text-on-primary-container hover:shadow-lg hover:shadow-primary/20 transition-all flex items-center justify-center gap-2">
+                        Explore Pools
+                        <span class="material-symbols-outlined">trending_up</span>
+</button>
+<button class="px-8 py-4 rounded-xl bg-transparent border border-outline-variant text-on-surface font-headline-sm hover:bg-surface-variant transition-all">
+                        Documentation
+                    </button>
+</div>
+</div>
+<!-- Hero Visual Element -->
+<div class="hidden xl:block glass-card p-6 rounded-2xl w-80 rotate-2 border-primary/20" style="transform: translateY(0px);">
+<div class="flex justify-between items-center mb-6">
+<span class="text-label-caps font-label-caps text-on-surface">Protocol Status</span>
+<span class="font-data-tabular text-data-tabular text-on-surface-variant">0x4F...9E2</span>
+</div>
+<div class="space-y-4">
+<div class="h-1.5 bg-outline-variant/30 w-full rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-3/4"></div>
+</div>
+<div class="flex justify-between text-label-caps font-label-caps">
+<span class="text-on-surface-variant">Verification</span>
+<span class="text-tertiary">98% Verified</span>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant/20 grid grid-cols-2 gap-4">
+<div class="text-center">
+<div class="text-headline-sm font-data-tabular text-on-surface">1.4s</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">Latency</div>
+</div>
+<div class="text-center">
+<div class="text-headline-sm font-data-tabular text-on-surface">4.8M</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">TVL (USDC)</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Flow Explanation Section -->
+<section class="mb-20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="flex flex-col p-8 glass-card rounded-2xl relative" style="transform: translateY(0px);">
+
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface mb-2">Deposit USDC</h4>
+<p class="text-label-caps text-on-surface-variant leading-relaxed">Select your prediction and commit USDC to the escrow pool.</p>
+</div>
+<div class="flex flex-col p-8 glass-card rounded-2xl relative" style="transform: translateY(0px);">
+
+<div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary mb-6">
+<span class="material-symbols-outlined">sports_soccer</span>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface mb-2">Match Ends</h4>
+<p class="text-label-caps text-on-surface-variant leading-relaxed">The final whistle blows and match statistics are finalized globally.</p>
+</div>
+<div class="flex flex-col p-8 glass-card rounded-2xl relative" style="transform: translateY(0px);">
+
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary mb-6">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface mb-2">TxLINE Verifies</h4>
+<p class="text-label-caps text-on-surface-variant leading-relaxed">Cryptographic data feed triggers the on-chain settlement.</p>
+</div>
+<div class="flex flex-col p-8 glass-card rounded-2xl relative" style="transform: translateY(0px);">
+
+<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary-container mb-6">
+<span class="material-symbols-outlined">celebration</span>
+</div>
+<h4 class="font-headline-sm text-body-md text-on-surface mb-2">Winners Claim</h4>
+<p class="text-label-caps text-on-surface-variant leading-relaxed">Protocol distributes USDC automatically to the winners.</p>
+</div>
+</div>
+</section>
+<!-- Featured Matches -->
+<section class="mb-20">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-display-lg text-headline-md text-on-surface">Featured Matches</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Active World Cup prediction pools</p>
+</div>
+<a class="text-primary font-label-caps flex items-center gap-1 hover:underline" href="#">
+                View All
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: Brazil vs Spain -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col" style="transform: translateY(0px);">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+<div class="flex items-center gap-2 bg-error-container/10 px-2 py-1 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-error live-pulse"></span>
+<span class="text-[10px] font-label-caps text-error tracking-widest uppercase">Live</span>
+</div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant text-[12px]">WC-2841</span>
+</div>
+<div class="p-8 flex-1">
+<div class="flex items-center justify-between mb-8">
+<div class="text-center w-24">
+<div class="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden border-2 border-outline-variant/20">
+<img alt="Flag of Brazil" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUWrg_T8fbKhZKZeXRKkQp4yxrNgqYYbHOex0GeV5_2MnnWXmpYGFkAchL8R7NqAYhHUKimqCeG0xHAI2JseTpyEz5a49sNTtwoBdFp9D7HJkSict5V8tKqW4PYA89A6Qc6-GXeIvSWVeOS008XBRFVbIZzsYs_EeFa0gCBbQI17uiNWqj21IBVUrOulXQ86bXLosg3KxlXXoQKyL3J4KtlYKWGMf7fBLJYQMS-CSE4LPR7NipApy4QWesagH8pnGwGIJaFkO-znA">
+</div>
+<span class="font-body-md text-on-surface">Brazil</span>
+</div>
+<div class="text-center">
+<div class="font-data-tabular text-headline-md text-on-surface mb-1">2 - 1</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">72'</div>
+</div>
+<div class="text-center w-24">
+<div class="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden border-2 border-outline-variant/20">
+<img alt="Flag of Spain" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfKEaFLcN3nuEqfxwfPe_umPWrH-VxOUDhq0hAPoYL7QVHNN2l2bEDJZACtAA_-1ePr6Rnv_-JKR_CEwDLdwVRi9NKhNZBw_kV9BKG0XIfTWxdCNVPOf-gaTsqyx6q6nmSIcSn7IxQQvjmlqRPQraZCjkwSGE61PVQ7M9X0BANyz3fxV95xWlZSyNBS6qNzDa0tN8X9NHfpyJujXZp9nPuTCx-VWFslDHNFwUSz7RcW7kOM0jxGhsRcuEWW4pwAvyTnwTIRd5CReM">
+</div>
+<span class="font-body-md text-on-surface">Spain</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<button class="bg-surface-variant/20 hover:bg-primary/20 border border-outline-variant/10 p-3 rounded-xl text-center transition-all group">
+<div class="text-label-caps font-label-caps text-on-surface-variant group-hover:text-on-surface">BRA WIN</div>
+<div class="font-data-tabular text-headline-sm text-on-surface">1.42</div>
+</button>
+<button class="bg-surface-variant/20 hover:bg-primary/20 border border-outline-variant/10 p-3 rounded-xl text-center transition-all group">
+<div class="text-label-caps font-label-caps text-on-surface-variant group-hover:text-on-surface">DRAW</div>
+<div class="font-data-tabular text-headline-sm text-on-surface">3.85</div>
+</button>
+<button class="bg-surface-variant/20 hover:bg-primary/20 border border-outline-variant/10 p-3 rounded-xl text-center transition-all group">
+<div class="text-label-caps font-label-caps text-on-surface-variant group-hover:text-on-surface">ESP WIN</div>
+<div class="font-data-tabular text-headline-sm text-on-surface">6.20</div>
+</button>
+</div>
+</div>
+<div class="px-6 py-4 bg-surface-container-high/20 flex justify-between items-center text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="text-label-caps font-label-caps">Pool: 245,000 USDC</span>
+</div>
+<span class="text-label-caps font-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-tertiary">verified</span>
+                        Settled OK
+                    </span>
+</div>
+</div>
+<!-- Card 2: France vs Argentina -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col" style="transform: translateY(0px);">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+<div class="flex items-center gap-2 px-2 py-1 rounded">
+<span class="text-[10px] font-label-caps text-on-surface-variant tracking-widest uppercase">Starts in 4h 12m</span>
+</div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant text-[12px]">WC-2845</span>
+</div>
+<div class="p-8 flex-1">
+<div class="flex items-center justify-between mb-8">
+<div class="text-center w-24">
+<div class="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden border-2 border-outline-variant/20">
+<img alt="Flag of France" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9sN6gBiNF7UP0gximvSI5DZpF-87eDUtrocEFeT6LfmEWfLZX4kXYW3j4qPaEGxOUO2rYW8WqQaLNOAZ13y-zLl_169PlDASf94S8hE1gFDmuHKM0MexkXs4_2sxFYO3n4lp6RVupHto_3HALM5ydSiCxvZItjTPNB8b5VHBprWAx1qpFE6wiHDul21bpPWtlMehPvoDMg0uA7SVTlnZU5lD-WikEWsMzwaoAPA-PY87qKHTsbDtk3d3zzCEca5dBElegzeLYd54">
+</div>
+<span class="font-body-md text-on-surface">France</span>
+</div>
+<div class="text-center">
+<div class="font-data-tabular text-headline-md text-on-surface-variant mb-1">VS</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">20:00 UTC</div>
+</div>
+<div class="text-center w-24">
+<div class="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden border-2 border-outline-variant/20">
+<img alt="Flag of Argentina" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbQXSnugIlKFJkqUW2HWyYbCst89cAqQfFrk0X9HAzI-FsBrJSA9pMAIdRKEo7ledwJbrfbVo_NO-0c-fEz0GravT3-v2JNZR2THthwZzlEH6pH5TKeRC45FJ7jz-9RV90sRd-W8UtMQqMytcPAeuas8WC_IqdmEac41L5qD7KCny0qSG5QWRW3yqQRY1LHNnKVgl7gg4n8-fSZqvnOknlL6G98NrwjU85KmQBOT51MxIqMz6qqQKxoF7Hs1cIxUu2_DoRace9tHk">
+</div>
+<span class="font-body-md text-on-surface">Argentina</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<button class="bg-surface-variant/20 hover:bg-primary/20 border border-outline-variant/10 p-3 rounded-xl text-center transition-all group">
+<div class="text-label-caps font-label-caps text-on-surface-variant group-hover:text-on-surface">FRA WIN</div>
+<div class="font-data-tabular text-headline-sm text-on-surface">2.10</div>
+</button>
+<button class="bg-surface-variant/20 hover:bg-primary/20 border border-outline-variant/10 p-3 rounded-xl text-center transition-all group">
+<div class="text-label-caps font-label-caps text-on-surface-variant group-hover:text-on-surface">DRAW</div>
+<div class="font-data-tabular text-headline-sm text-on-surface">3.25</div>
+</button>
+<button class="bg-surface-variant/20 hover:bg-primary/20 border border-outline-variant/10 p-3 rounded-xl text-center transition-all group">
+<div class="text-label-caps font-label-caps text-on-surface-variant group-hover:text-on-surface">ARG WIN</div>
+<div class="font-data-tabular text-headline-sm text-on-surface">3.15</div>
+</button>
+</div>
+</div>
+<div class="px-6 py-4 bg-surface-container-high/20 flex justify-between items-center text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">lock_open</span>
+<span class="text-label-caps font-label-caps">Pool: 82,400 USDC</span>
+</div>
+<span class="text-label-caps font-label-caps">Syncing Data</span>
+</div>
+</div>
+<!-- Card 3: England vs Germany -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col" style="transform: translateY(0px);">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+<div class="flex items-center gap-2 px-2 py-1 rounded">
+<span class="text-[10px] font-label-caps text-on-surface-variant tracking-widest uppercase">Starts Tomorrow</span>
+</div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant text-[12px]">WC-2850</span>
+</div>
+<div class="p-8 flex-1">
+<div class="flex items-center justify-between mb-8">
+<div class="text-center w-24">
+<div class="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden border-2 border-outline-variant/20">
+<img alt="Flag of England" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD-oNjHuM3Dhb5P-ODGufPcyRlsiZr7vn11ji90pMt_73R4PjPrZyLxkEFvBtGjNqYPRIOL88_DCHCPq0TJHxfOSi_GBH4q8vGIlKd443HbDv2WVmLZSv5OaWOr022ggkczQNXORDxk8-UZUtviNXn0YKOOdOnS0BT8A_v1T2Dsze0DeN_d_tRfw2CGQG2kptPL1LhH06h0qKe2tUvI5uRYgEjiS2EWCh0Djw2yk8YF4S1I4nv5b_rO6jC3OrwAInmJlMSnCP6mr4">
+</div>
+<span class="font-body-md text-on-surface">England</span>
+</div>
+<div class="text-center">
+<div class="font-data-tabular text-headline-md text-on-surface-variant mb-1">VS</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">14:00 UTC</div>
+</div>
+<div class="text-center w-24">
+<div class="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden border-2 border-outline-variant/20">
+<img alt="Flag of Germany" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSImyzYxxpNDDQhlqTOAc874rTfTgTUcPHEjsTA4-jJBCGrPmyIp7Xrw0Jpl91S9TNObJq9VHuL6obXS8SP0yEj4kyGiVuDRLvve7yn9OvFpD1ja6U064Xhl6RB_OO7AnvsEmySgwpt4_DNe8n8JQSY-WFziBeJFNW2oPt5kDj_z7KBAY31dyn5lnmT4dh6zzeU_duFChR2hMTZ9gVJ1N1sv4-dIyJ7rGhF_2YAAqHABjml-xb8lKHZl3s2fV1CpXB-t7G3YTN4pU">
+</div>
+<span class="font-body-md text-on-surface">Germany</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<button class="bg-surface-variant/20 hover:bg-primary/20 border border-outline-variant/10 p-3 rounded-xl text-center transition-all group">
+<div class="text-label-caps font-label-caps text-on-surface-variant group-hover:text-on-surface">ENG WIN</div>
+<div class="font-data-tabular text-headline-sm text-on-surface">2.75</div>
+</button>
+<button class="bg-surface-variant/20 hover:bg-primary/20 border border-outline-variant/10 p-3 rounded-xl text-center transition-all group">
+<div class="text-label-caps font-label-caps text-on-surface-variant group-hover:text-on-surface">DRAW</div>
+<div class="font-data-tabular text-headline-sm text-on-surface">3.40</div>
+</button>
+<button class="bg-surface-variant/20 hover:bg-primary/20 border border-outline-variant/10 p-3 rounded-xl text-center transition-all group">
+<div class="text-label-caps font-label-caps text-on-surface-variant group-hover:text-on-surface">GER WIN</div>
+<div class="font-data-tabular text-headline-sm text-on-surface">2.60</div>
+</button>
+</div>
+</div>
+<div class="px-6 py-4 bg-surface-container-high/20 flex justify-between items-center text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">lock_open</span>
+<span class="text-label-caps font-label-caps">Pool: 12,000 USDC</span>
+</div>
+<span class="text-label-caps font-label-caps">Pre-sync Phase</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Settlements & Verification -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
+<div class="lg:col-span-3 glass-card p-8 rounded-2xl" style="transform: translateY(0px);">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface">history</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Latest Settlements</h3>
+</div>
+<button class="text-label-caps text-on-surface-variant hover:text-primary transition-colors">View Ledger</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-center justify-between p-5 bg-surface-container-lowest/30 rounded-xl border border-outline-variant/10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<div class="text-body-md font-body-md text-on-surface">Match #WC-2792</div>
+<div class="text-data-tabular font-data-tabular text-[12px] text-on-surface-variant uppercase tracking-wider">SIG: 48f9...z2k1</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-on-surface font-data-tabular text-body-md">Verified</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">2 mins ago</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-5 bg-surface-container-lowest/30 rounded-xl border border-outline-variant/10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<div class="text-body-md font-body-md text-on-surface">Match #WC-2791</div>
+<div class="text-data-tabular font-data-tabular text-[12px] text-on-surface-variant uppercase tracking-wider">SIG: 92v1...m9p4</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-on-surface font-data-tabular text-body-md">Verified</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">14 mins ago</div>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+</main>
+<!-- Floating Action Button -->
+
+<script>
+    // Simple hover animation for cards
+    document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-4px)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+        });
+    });
+
+    console.log("TxPools Prediction Engine: Loaded.");
+</script>
+
+
+
+
+</body></html>

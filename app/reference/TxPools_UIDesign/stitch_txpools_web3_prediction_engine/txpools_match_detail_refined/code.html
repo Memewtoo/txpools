@@ -1,0 +1,331 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>TxPools | Match Detail - Brazil vs Spain</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "surface-container": "#1d2026",
+                        "primary-fixed": "#eddcff",
+                        "secondary-fixed-dim": "#00e38b",
+                        "secondary-fixed": "#56ffa8",
+                        "on-secondary-fixed": "#002110",
+                        "surface-bright": "#363940",
+                        "tertiary-fixed": "#52ffac",
+                        "on-error": "#690005",
+                        "surface-tint": "#d8b9ff",
+                        "primary-fixed-dim": "#d8b9ff",
+                        "on-primary": "#450086",
+                        "on-background": "#e1e2eb",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#00391f",
+                        "background": "#10131a",
+                        "error": "#ffb4ab",
+                        "outline": "#978da1",
+                        "outline-variant": "#4c4355",
+                        "surface-container-lowest": "#0b0e14",
+                        "on-primary-container": "#ffffff",
+                        "inverse-surface": "#e1e2eb",
+                        "tertiary": "#00e290",
+                        "on-surface": "#e1e2eb",
+                        "secondary": "#a0ffc3",
+                        "on-tertiary-fixed": "#002111",
+                        "surface-dim": "#10131a",
+                        "on-secondary-container": "#00653b",
+                        "tertiary-container": "#008855",
+                        "tertiary-fixed-dim": "#00e290",
+                        "primary": "#d8b9ff",
+                        "surface-container-high": "#272a31",
+                        "surface-container-low": "#191c22",
+                        "secondary-container": "#00ec91",
+                        "inverse-primary": "#7f21e5",
+                        "on-tertiary": "#003920",
+                        "surface": "#10131a",
+                        "on-surface-variant": "#cec2d8",
+                        "on-secondary-fixed-variant": "#00522f",
+                        "surface-variant": "#32353c",
+                        "primary-container": "#9945ff",
+                        "on-tertiary-container": "#ffffff",
+                        "on-primary-fixed-variant": "#6300bb",
+                        "on-primary-fixed": "#290055",
+                        "on-tertiary-fixed-variant": "#005231",
+                        "surface-container-highest": "#32353c",
+                        "inverse-on-surface": "#2e3037"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "margin-desktop": "32px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "max-width": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "data-tabular": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "data-tabular": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(30, 35, 45, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(76, 67, 85, 0.3);
+        }
+        .live-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .4; }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #10131a; }
+        ::-webkit-scrollbar-thumb { background: #32353c; border-radius: 10px; }
+        
+        .prediction-btn.active {
+            border-color: #d8b9ff;
+            background: rgba(153, 69, 255, 0.1);
+            box-shadow: 0 0 20px rgba(153, 69, 255, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/30">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-background/60 backdrop-blur-xl border-b border-outline-variant/30">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-headline-sm tracking-tighter text-primary">TxPools</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-body-md text-body-md text-secondary border-b-2 border-secondary pb-1 hover:text-primary transition-colors duration-200" href="#">Pools</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Settlements</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Portfolio</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Trust</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant/30">
+<span class="material-symbols-outlined text-tertiary text-[18px]">sensors</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Solana Devnet</span>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-label-caps text-label-caps hover:brightness-110 active:scale-95 transition-all">
+            Connect Wallet
+        </button>
+</div>
+</header>
+<main class="pt-24 pb-12 px-margin-desktop max-w-max-width mx-auto grid grid-cols-12 gap-gutter"><!-- Match Header Section -->
+<section class="col-span-12 glass-card rounded-xl p-8 mb-4 overflow-hidden relative">
+    <div class="absolute top-0 right-0 p-4">
+        
+    </div>
+    <div class="flex flex-col md:flex-row items-center justify-between gap-8 py-4">
+        <div class="flex flex-col items-center gap-4 text-center">
+            <div class="w-24 h-24 rounded-full border-4 border-outline-variant/20 p-1">
+                <img alt="Brazil Team Logo" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEkkVJ73eT0OtYcSwwhN6npgpDN0X_gdsaa0Dw9EffDoBXJhTf1rOgIA_26FhmetGSm0SZoVXFAzuE3Yjt-E5tlT7IELCvLIXzuK33SbxQBBww8UntATQvMjp9hnoK-APftZnX2-o8YoQE6iwOVDL0GtxFmew_X0H0DikaNclQQ7eSomOAFSOqKb6HZS3ZUGShm9sGD-zA9_EBeeTW8nMdfMnZmrh6FEnBs237JjEMHk9IaOTMGbXB3IL1DoCRQzUak2_ub9yhHUI">
+            </div>
+            <div>
+                <h2 class="font-headline-md text-headline-md">Brazil</h2>
+                <span class="font-label-caps text-label-caps text-on-surface-variant">Home Team</span>
+            </div>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+            <div class="flex items-center gap-6">
+                <span class="font-display-lg text-display-lg text-primary">2</span>
+                <span class="font-display-lg text-display-lg text-outline-variant">:</span>
+                <span class="font-display-lg text-display-lg text-on-background">1</span>
+            </div>
+            <div class="px-4 py-1 bg-surface-variant rounded-full">
+                <span class="font-data-tabular text-data-tabular text-tertiary">85'</span>
+            </div>
+        </div>
+        <div class="flex flex-col items-center gap-4 text-center">
+            <div class="w-24 h-24 rounded-full border-4 border-outline-variant/20 p-1">
+                <img alt="Spain Team Logo" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_S_qvWZMKgvHg1sy-JsU9R7NOC2BW9QNJ9tNZ5wVrCwdgVzTe7cdPQhAgORgWhMOsQyr1Uq7aOAE7cx63wh6Kx7O56bxJ7nlUIiqP5CtR8eCjo6h9UtXH82bSt3sju2eR3tOxT6cqTLAQqgGDh1Z1YE53EtgjWtasH90XMPTCV4gHxWv028Nhlyh7T7fmEhBdZcMFZ_u6vL_R_eQ7OrCuqmxy6uoG6DM74tujwv1tC0qFyONs6vnIstyJTMSiQibZDYucINMSFUY">
+            </div>
+            <div>
+                <h2 class="font-headline-md text-headline-md">Spain</h2>
+                <span class="font-label-caps text-label-caps text-on-surface-variant">Away Team</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Left Column: Stats & Prediction -->
+<div class="col-span-12 space-y-gutter lg:col-span-12">
+    <div class="grid grid-cols-3 gap-gutter">
+        <div class="glass-card rounded-xl p-4 flex flex-col gap-1">
+            <span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total Locked</span>
+            <span class="font-headline-sm text-headline-sm text-on-background">$1,245,800 <span class="text-label-caps text-on-surface-variant">USDC</span></span>
+        </div>
+        <div class="glass-card rounded-xl p-4 flex flex-col gap-1">
+            <span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Participants</span>
+            <span class="font-headline-sm text-headline-sm text-on-background">14,284</span>
+        </div>
+        <div class="glass-card rounded-xl p-4 flex flex-col gap-1">
+            <span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Closing In</span>
+            <span class="font-headline-sm text-headline-sm text-on-background">04:52</span>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter lg:grid-cols-3">
+        <button class="prediction-btn glass-card rounded-xl p-6 text-left group hover:border-primary/50 transition-all active:scale-95 active" id="predict-brazil">
+            <div class="flex justify-between items-start mb-4">
+                <span class="font-headline-sm text-headline-sm">Brazil</span>
+                <span class="font-data-tabular text-data-tabular text-secondary">x1.42</span>
+            </div>
+            <div class="h-2 w-full bg-surface-variant rounded-full mb-2 overflow-hidden">
+                <div class="h-full bg-primary" style="width: 65%"></div>
+            </div>
+            <div class="flex justify-between text-label-caps font-label-caps text-on-surface-variant">
+                <span class="">65.2% Vol</span>
+                <span class="">812k USDC</span>
+            </div>
+        </button>
+        <button class="prediction-btn glass-card rounded-xl p-6 text-left group hover:border-primary/50 transition-all active:scale-95" id="predict-draw">
+            <div class="flex justify-between items-start mb-4">
+                <span class="font-headline-sm text-headline-sm">Draw</span>
+                <span class="font-data-tabular text-data-tabular text-secondary">x3.85</span>
+            </div>
+            <div class="h-2 w-full bg-surface-variant rounded-full mb-2 overflow-hidden">
+                <div class="h-full bg-outline-variant" style="width: 12%"></div>
+            </div>
+            <div class="flex justify-between text-label-caps font-label-caps text-on-surface-variant">
+                <span class="">12.5% Vol</span>
+                <span class="">155k USDC</span>
+            </div>
+        </button>
+        <button class="prediction-btn glass-card rounded-xl p-6 text-left group hover:border-primary/50 transition-all active:scale-95" id="predict-spain">
+            <div class="flex justify-between items-start mb-4">
+                <span class="font-headline-sm text-headline-sm">Spain</span>
+                <span class="font-data-tabular text-data-tabular text-secondary">x2.10</span>
+            </div>
+            <div class="h-2 w-full bg-surface-variant rounded-full mb-2 overflow-hidden">
+                <div class="h-full bg-secondary" style="width: 22%"></div>
+            </div>
+            <div class="flex justify-between text-label-caps font-label-caps text-on-surface-variant">
+                <span class="">22.3% Vol</span>
+                <span class="">278k USDC</span>
+            </div>
+        </button>
+    </div>
+    <div class="glass-card rounded-xl p-8 border-t-4 border-primary max-w-3xl mx-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="font-headline-sm text-headline-sm">Lock USDC</h3>
+            <div class="flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/30 rounded-full" id="selection-indicator">
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                <span class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Predicting: Brazil Win</span>
+            </div>
+        </div>
+        <div class="flex flex-col gap-4">
+            <div class="flex items-center justify-between font-label-caps text-label-caps text-on-surface-variant">
+                <span class="">Amount to lock</span>
+                <span class="">Balance: 12,450.00 USDC</span>
+            </div>
+            <div class="relative group">
+                <input class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg py-4 px-6 font-data-tabular text-headline-sm text-primary focus:outline-none focus:border-primary transition-colors" placeholder="0.00" type="text">
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-3">
+                    <span class="text-on-surface-variant font-label-caps">USDC</span>
+                    <button class="px-2 py-1 bg-surface-variant hover:bg-outline-variant rounded text-[10px] font-bold uppercase transition-colors">Max</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-2">
+                <div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant/10">
+                    <span class="block font-label-caps text-label-caps text-on-surface-variant mb-1">Estimated Payout</span>
+                    <span class="font-data-tabular text-body-lg text-secondary">0.00 USDC</span>
+                </div>
+                <div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant/10">
+                    <span class="block font-label-caps text-label-caps text-on-surface-variant mb-1">Platform Fee</span>
+                    <span class="font-data-tabular text-body-lg text-on-surface-variant">0.5%</span>
+                </div>
+            </div>
+            <button class="mt-4 w-full bg-gradient-to-r from-primary-container to-inverse-primary text-white py-4 rounded-lg font-headline-sm text-headline-sm hover:brightness-110 shadow-lg shadow-primary-container/20 transition-all active:scale-[0.98]">
+                Confirm Prediction
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Right Column: Sidebar -->
+</main>
+<script>
+    const predictionButtons = document.querySelectorAll('.prediction-btn');
+    const selectionIndicator = document.getElementById('selection-indicator');
+    const payoutText = document.querySelector('.text-secondary.text-body-lg');
+    const input = document.querySelector('input');
+
+    let currentMultiplier = 1.42;
+
+    predictionButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update button visual state
+            predictionButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Update indicator in deposit panel
+            const teamName = btn.querySelector('.text-headline-sm').textContent;
+            selectionIndicator.innerHTML = `
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                <span class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Predicting: ${teamName} Win</span>
+            `;
+
+            // Update multiplier for calculation
+            currentMultiplier = parseFloat(btn.querySelector('.text-secondary').textContent.replace('x', ''));
+            updatePayout();
+        });
+    });
+
+    function updatePayout() {
+        const val = parseFloat(input.value) || 0;
+        payoutText.textContent = (val * currentMultiplier).toFixed(2) + ' USDC';
+    }
+
+    input.addEventListener('input', updatePayout);
+
+    // Simple button active state visual feedback
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(btn => {
+        btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+        btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+        btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+</body></html>
