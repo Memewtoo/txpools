@@ -153,7 +153,6 @@ const buildValidateStatInstructionData = (response: unknown, statKey: number): U
   const stat = objectField(statsToProve[statIndex], 'requested stat')
   const summary = objectField(record.summary, 'summary')
   const updateStats = objectField(summary.updateStats, 'summary.updateStats')
-  const ts = numberField(record.ts, 'ts')
   const fixtureId = numberField(summary.fixtureId, 'summary.fixtureId')
   const updateCount = numberField(updateStats.updateCount, 'summary.updateStats.updateCount')
   const minTimestamp = numberField(updateStats.minTimestamp, 'summary.updateStats.minTimestamp')
@@ -164,9 +163,11 @@ const buildValidateStatInstructionData = (response: unknown, statKey: number): U
   if (!Array.isArray(statProofs)) throw new Error('TxLINE stat validation response is missing stat proofs.')
 
   // Serialize the exact validate_stat ABI consumed by the on-chain parser.
+  // TxLINE requires the PDA seed timestamp and payload timestamp to use the
+  // summary's minimum update timestamp, not the response's top-level `ts`.
   return concatBytes(
     validateStatDiscriminator,
-    i64Le(ts),
+    i64Le(minTimestamp),
     i64Le(fixtureId),
     i32Le(updateCount),
     i64Le(minTimestamp),
