@@ -38,6 +38,39 @@ The project includes:
 - A typed frontend adapter for TxLINE REST/SSE and hand-built TxPools instructions.
 - Mollusk integration tests covering the complete pool lifecycle and failure cases.
 
+## Submission Overview
+
+### Core Idea
+
+TxPools turns World Cup fixtures into non-custodial USDC prediction pools. TxLINE provides the match schedule, live state, final score data, and Merkle validation inputs; the TxPools Pinocchio program controls escrow, proportional payout accounting, settlement, and claims on Solana.
+
+### Business Highlights
+
+- **Lower counterparty trust:** USDC is held by pool PDAs rather than a product operator.
+- **Transparent participation:** pool liquidity, outcome distribution, and current payout estimates are publicly derived from Solana accounts.
+- **Bootstrapped markets:** every initialized pool includes a 150 USDC platform-funded bonus.
+- **Open execution:** any signer can settle an eligible final match; winners claim directly to their own token accounts.
+- **Fast product reads:** the SQLite indexer makes portfolio and participant queries responsive without becoming part of the trust boundary.
+
+### Technical Highlights
+
+- Compact `no_std` Pinocchio program with canonical config, pool, vault, and position PDAs.
+- TxLINE REST and authenticated SSE adapter with fixture retention and strict frontend final-status gating.
+- Two TxLINE `validate_stat` CPIs verify final home and away score statistics during `resolve_pool`.
+- Checked SPL Token transfers, fixed devnet USDC mint validation, dynamic rent calculation, and one-time claim protection.
+- Mollusk coverage for the complete lifecycle and important authority, timing, token, resolution, and claim failures.
+
+### TxLINE Endpoints Used
+
+| Method | Endpoint | TxPools usage |
+| --- | --- | --- |
+| `GET` | `/api/fixtures/snapshot?competitionId={id}&startEpochDay={day}` | Discovers World Cup fixtures, participants, kickoff times, and current fixture status. |
+| `GET` (SSE) | `/api/scores/stream?fixtureId={id}` | Receives live score and status events; TxPools can consume the full stream when `fixtureId` is omitted. |
+| `GET` | `/api/scores/snapshot/{fixtureId}` | Hydrates the latest known score state on initial load and recovers state before opening SSE. |
+| `GET` | `/api/scores/stat-validation?fixtureId={id}&seq={seq}&statKeys=1,2` | Retrieves Merkle validation inputs for final home and away score statistics used to build `resolve_pool`. |
+
+Browser requests pass through the hosted TxPools backend, which injects TxLINE credentials server-side. The score validation payloads are serialized into the settlement instruction, where the TxPools program invokes TxLINE's on-chain `validate_stat` instruction once per score key.
+
 ## Product Flow
 
 ```mermaid
